@@ -36,6 +36,7 @@ jobs:
         run: |
           chmod +x encrypt.sh; 
           ./encrypt.sh \
+          ${{ secrets.ENCRYPTION_KEY }} \
           ${{ github.event.inputs.secret-1 }} \
           ${{ github.event.inputs.secret-2 }} \
           ${{ github.event.inputs.secret-3 }} \
