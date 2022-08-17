@@ -25,10 +25,4 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: |
-          java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool \
-          string \
-          encrypt \
-          AES \
-          CBC \
-          ${{ secrets.ENCRYPTION_KEY }} \
-          ${{ github.event.inputs.secret-1 }}
+          ./encrypt.sh
