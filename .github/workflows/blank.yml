@@ -1,7 +1,5 @@
 name: mule-secret-encryption-tool
 
-  workflow_dispatch:
-
 on:
   workflow_dispatch:
     inputs:
