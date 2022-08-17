@@ -4,15 +4,10 @@ SECRET_2=""
 SECRET_3=""
 SECRET_4=""
 SECRET_5=""
+ENCRYPTION_KEY=${{ secrets.ENCRYPTION_KEY }}
 if [ $1 != "" ]
 then
-  SECRET_1=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool \
-  string \
-  encrypt \
-  AES \
-  CBC \
-  ${{ secrets.ENCRYPTION_KEY }} \
-  $1
+  SECRET_1=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY $1)
 fi
 if [ $2 != "" ]
 then
