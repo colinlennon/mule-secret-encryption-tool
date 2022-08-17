@@ -4,7 +4,7 @@ SECRET_2=""
 SECRET_3=""
 SECRET_4=""
 SECRET_5=""
-if [ $1 -ne "" ]
+if [ $1 != "" ]
 then
   SECRET_1=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool \
   string \
@@ -14,7 +14,7 @@ then
   ${{ secrets.ENCRYPTION_KEY }} \
   ${{ github.event.inputs.secret-1 }})
 fi
-if [ $2 -ne "" ]
+if [ $2 != "" ]
 then
   java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool \
   string \
@@ -24,7 +24,7 @@ then
   ${{ secrets.ENCRYPTION_KEY }} \
   ${{ github.event.inputs.secret-1 }}
 fi
-if [ $3 -ne "" ]
+if [ $3 != "" ]
 then
   java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool \
   string \
@@ -34,7 +34,7 @@ then
   ${{ secrets.ENCRYPTION_KEY }} \
   ${{ github.event.inputs.secret-1 }}
 fi
-if [ $4 -ne "" ]
+if [ $4 != "" ]
 then
   java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool \
   string \
@@ -44,7 +44,7 @@ then
   ${{ secrets.ENCRYPTION_KEY }} \
   ${{ github.event.inputs.secret-1 }}
 fi
-if [ $5 -ne "" ]
+if [ $5 != "" ]
 then
   java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool \
   string \
