@@ -12,7 +12,7 @@ then
   AES \
   CBC \
   ${{ secrets.ENCRYPTION_KEY }} \
-  ${{ github.event.inputs.secret-1 }})
+  $1
 fi
 if [ $2 != "" ]
 then
@@ -22,7 +22,7 @@ then
   AES \
   CBC \
   ${{ secrets.ENCRYPTION_KEY }} \
-  ${{ github.event.inputs.secret-1 }}
+  $2
 fi
 if [ $3 != "" ]
 then
@@ -32,7 +32,7 @@ then
   AES \
   CBC \
   ${{ secrets.ENCRYPTION_KEY }} \
-  ${{ github.event.inputs.secret-1 }}
+  $3
 fi
 if [ $4 != "" ]
 then
@@ -42,7 +42,7 @@ then
   AES \
   CBC \
   ${{ secrets.ENCRYPTION_KEY }} \
-  ${{ github.event.inputs.secret-1 }}
+  $4
 fi
 if [ $5 != "" ]
 then
@@ -52,7 +52,7 @@ then
   AES \
   CBC \
   ${{ secrets.ENCRYPTION_KEY }} \
-  ${{ github.event.inputs.secret-1 }}
+  $5
 fi
 
 echo "Secret 1: $SECRET_1"
