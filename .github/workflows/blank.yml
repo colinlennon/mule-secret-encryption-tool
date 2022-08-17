@@ -29,6 +29,6 @@ jobs:
           string \
           encrypt \
           AES \
-          encrypt \
+          CBC \
           PeShVmYp3s6v9y\$B&E\)H@McQfTjWnZr4 \
           plain-text-password
