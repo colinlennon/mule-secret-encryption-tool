@@ -6,9 +6,18 @@ on:
       secret-1:
         description: 'Secret 1'
         type: string
-      #secret-2:
-        #description: 'Secret 2'
-        #type: string
+      secret-2:
+        description: 'Secret 2'
+        type: string
+      secret-3:
+        description: 'Secret 3'
+        type: string
+      secret-4:
+        description: 'Secret 4'
+        type: string
+      secret-5:
+        description: 'Secret 5'
+        type: string
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
