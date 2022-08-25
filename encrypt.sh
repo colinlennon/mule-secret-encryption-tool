@@ -9,7 +9,7 @@ if [[ -n "$2" ]]
 then
   SECRET_1=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY $2)
 fi
-if [[ -n "$3" ]]
+if [[ -z "$3" ]]
 then
   SECRET_2=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY $3)
 fi
