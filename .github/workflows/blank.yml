@@ -36,7 +36,7 @@ jobs:
           chmod +x encrypt.sh; 
           
           FOO="1 - ${{ github.event.inputs.secret-2 }}:-blank}";
-          echo FOO;
+          echo "FOO=$FOO";
           
           ./encrypt.sh \
           ${{ secrets.ENCRYPTION_KEY }} \
