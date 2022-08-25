@@ -35,7 +35,7 @@ jobs:
         run: |
           chmod +x encrypt.sh; 
           SECRET2=${{ github.event.inputs.secret-2 }};
-          SECRET2=${SECRET2:-''};
+          SECRET2=${SECRET2:-blank};
           echo "SECRET2=$SECRET2";
           
           ./encrypt.sh \
