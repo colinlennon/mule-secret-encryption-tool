@@ -1,4 +1,4 @@
-name: mule-secret-encryption-tool
+name: encrypt-nonprod
 
 on:
   workflow_dispatch:
