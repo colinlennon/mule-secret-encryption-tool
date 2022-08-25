@@ -35,8 +35,8 @@ jobs:
         run: |
           chmod +x encrypt.sh; 
           SECRET2=${{ github.event.inputs.secret-2 }};
-          FOO=${SECRET2:-blank};
-          echo "FOO=$FOO";
+          SECRET2=${SECRET2:-blank};
+          echo "SECRET2=$SECRET2";
           
           ./encrypt.sh \
           ${{ secrets.ENCRYPTION_KEY }} \
