@@ -34,8 +34,8 @@ jobs:
       - name: Execute encryption script
         run: |
           chmod +x encrypt.sh; 
-          
-          FOO="1 - ${{ github.event.inputs.secret-2 }}:-blank}";
+          SECRET2=${{ github.event.inputs.secret-2 }};
+          FOO=${SECRET2:-blank};
           echo "FOO=$FOO";
           
           ./encrypt.sh \
