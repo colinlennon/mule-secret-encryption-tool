@@ -1,4 +1,4 @@
-name: mule-secret-encryption-tool
+name: encrypt-local
 
 on:
   workflow_dispatch:
