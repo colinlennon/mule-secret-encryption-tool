@@ -5,23 +5,23 @@ SECRET_3=""
 SECRET_4=""
 SECRET_5=""
 ENCRYPTION_KEY=$1
-if [[ -n "$2" ]]
+if [[ "$2" != "blank" ]]
 then
   SECRET_1=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY $2)
 fi
-if [[ -z "$3" ]]
+if [[ "$3" != "blank" ]]
 then
   SECRET_2=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY $3)
 fi
-if [[ -n "$4" ]]
+if [[ "$4" != "blank" ]]
 then
   SECRET_3=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY $4)
 fi
-if [[ -n "$5" ]]
+if [[ "$5" != "blank" ]]
 then
   SECRET_4=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY $5)
 fi
-if [[ -n "$6" ]]
+if [[ "$6" != "blank" ]]
 then
   SECRET_5=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY $6)
 fi
