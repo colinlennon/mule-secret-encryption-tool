@@ -35,13 +35,13 @@ jobs:
         run: |
           chmod +x encrypt.sh; 
           SECRET2=${{ github.event.inputs.secret-2 }};
-          SECRET2=${SECRET2:-blank};
+          SECRET2=${SECRET2:-''};
           echo "SECRET2=$SECRET2";
           
           ./encrypt.sh \
           ${{ secrets.ENCRYPTION_KEY }} \
           ${{ github.event.inputs.secret-1 }} \
-          ${{ github.event.inputs.secret-2 }} \
+          $SECRET2 \
           ${{ github.event.inputs.secret-3 }} \
           ${{ github.event.inputs.secret-4 }} \
           ${{ github.event.inputs.secret-5 }}
