@@ -5,6 +5,11 @@ SECRET_3=""
 SECRET_4=""
 SECRET_5=""
 ENCRYPTION_KEY=$1
+
+echo "Downloading secure-properties-tool.jar from MuleSoft website..."
+curl -s https://docs.mulesoft.com/downloads/mule-runtime/4.2/secure-properties-tool.jar -o secure-properties-tool.jar
+
+echo "Encrypting secrets..."
 if [[ "$2" != "blank" ]]
 then
   SECRET_1=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY $2)
