@@ -31,10 +31,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script 
+      - name: Execute encryption script
         run: |
           chmod +x encrypt.sh; 
+          
+          echo "1 - ${${{ github.event.inputs.secret-2 }}:-blank}"
+          
           ./encrypt.sh \
           ${{ secrets.ENCRYPTION_KEY }} \
           ${{ github.event.inputs.secret-1 }} \
