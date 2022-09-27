@@ -24,6 +24,7 @@ jobs:
         run: |
           echo "Downloading secure-properties-tool.jar from MuleSoft website..."
           curl -s https://docs.mulesoft.com/downloads/mule-runtime/4.2/secure-properties-tool.jar -o secure-properties-tool.jar
+          chmod +x secure-properties-tool.jar
       
       - name: Encrypt secret
         run: |
