@@ -1,4 +1,4 @@
-name: encrypt-local
+name: encrypt-all
 
 on:
   workflow_dispatch:
