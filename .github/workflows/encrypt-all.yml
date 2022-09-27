@@ -7,15 +7,13 @@ on:
         description: 'Secret in plain-text'
         type: string
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   encrypt-secret:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    environment: local
+    env:
+      JAR_URL: 'https://docs.mulesoft.com/mule-runtime/4.4/_attachments/secure-properties-tool.jar'
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
@@ -23,12 +21,12 @@ jobs:
       - name: Download encryption tool
         run: |
           echo "Downloading secure-properties-tool.jar from MuleSoft website..."
-          curl -s https://docs.mulesoft.com/downloads/mule-runtime/4.2/secure-properties-tool.jar -o secure-properties-tool.jar
+          curl -s $JAR_URL -o secure-properties-tool.jar
           chmod +x secure-properties-tool.jar
       
       - name: Encrypt secret
         run: |
-          ls -l
+          ls -l  # FOR DEBUG ONLY, CAN BE REMOVED
           PLAINTEXT_SECRET=${{ github.event.inputs.secret }}
           LOCAL_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_LOCAL $PLAINTEXT_SECRET)
           NONPROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_NONPROD $PLAINTEXT_SECRET)
