@@ -15,9 +15,6 @@ jobs:
 
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
       - name: Download encryption tool
         run: |
           echo "Downloading secure-properties-tool.jar from MuleSoft website..."
@@ -26,7 +23,6 @@ jobs:
       
       - name: Encrypt secret
         run: |
-          ls -l  # FOR DEBUG ONLY, CAN BE REMOVED
           PLAINTEXT_SECRET=${{ github.event.inputs.secret }}
           ENCRYPTION_KEY_LOCAL=${{ secrets.ENCRYPTION_KEY_LOCAL }}
           ENCRYPTION_KEY_NONPROD=${{ secrets.ENCRYPTION_KEY_NONPROD }}
@@ -36,7 +32,7 @@ jobs:
           PROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_PROD $PLAINTEXT_SECRET)
           
           echo "Encrypted values"
-          echo "----------------------------------------------------------------"
+          echo "---------------------------------------------------"
           echo "Local:    $LOCAL_ENCRYPTED_SECRET"
           echo "Non-Prod: $NONPROD_ENCRYPTED_SECRET"
           echo "Prod:     $PROD_ENCRYPTED_SECRET"
