@@ -15,6 +15,11 @@ jobs:
 
 
     steps:
+
+      - name: Add mask
+        run: |
+          echo "::add-mask::${{ github.event.inputs.secret }}"
+        
       - name: Download encryption tool
         run: |
           echo "Downloading secure-properties-tool.jar from MuleSoft website..."
@@ -23,7 +28,6 @@ jobs:
       
       - name: Encrypt secret
         run: |
-          echo '::echo::off'
           PLAINTEXT_SECRET=${{ github.event.inputs.secret }}          
           ENCRYPTION_KEY_LOCAL=${{ secrets.ENCRYPTION_KEY_LOCAL }}
           ENCRYPTION_KEY_NONPROD=${{ secrets.ENCRYPTION_KEY_NONPROD }}
@@ -31,7 +35,6 @@ jobs:
           LOCAL_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_LOCAL $PLAINTEXT_SECRET)
           NONPROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_NONPROD $PLAINTEXT_SECRET)
           PROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_PROD $PLAINTEXT_SECRET)
-          echo '::echo::on'
           
           echo "Encrypted values"
           echo "---------------------------------------------------"
