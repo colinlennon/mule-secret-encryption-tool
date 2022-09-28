@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAR_URL: 'https://docs.mulesoft.com/mule-runtime/4.4/_attachments/secure-properties-tool.jar'
-      TEST: ${{ toJSON(inputs) }}
 
     steps:
 
@@ -41,14 +40,15 @@ jobs:
       
       - name: Encrypt secret
         run: |
-          PLAINTEXT_SECRET=`echo ${{ github.event.inputs.secret }}`
-          echo "::add-mask::$PLAINTEXT_SECRET"          
+          echo '::echo::off'
+          echo "::add-mask::${{ github.event.inputs.secret }}"
           ENCRYPTION_KEY_LOCAL=${{ secrets.ENCRYPTION_KEY_LOCAL }}
           ENCRYPTION_KEY_NONPROD=${{ secrets.ENCRYPTION_KEY_NONPROD }}
           ENCRYPTION_KEY_PROD=${{ secrets.ENCRYPTION_KEY_PROD }}
-          LOCAL_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_LOCAL $PLAINTEXT_SECRET)
-          NONPROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_NONPROD $PLAINTEXT_SECRET)
-          PROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_PROD $PLAINTEXT_SECRET)
+          LOCAL_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_LOCAL ${{ github.event.inputs.secret }})
+          NONPROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_NONPROD ${{ github.event.inputs.secret }})
+          PROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_PROD ${{ github.event.inputs.secret }})
+          echo '::echo::on'
           
           echo "Encrypted values"
           echo "---------------------------------------------------"
