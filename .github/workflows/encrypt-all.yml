@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAR_URL: 'https://docs.mulesoft.com/mule-runtime/4.4/_attachments/secure-properties-tool.jar'
+      TEST: ${{ toJSON(inputs) }}
 
     steps:
 
