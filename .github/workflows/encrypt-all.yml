@@ -3,7 +3,10 @@ name: encrypt-all
 on:
   workflow_dispatch:
     inputs:
-      secret:
+      # NOTE: this input has the name WEBHOOK_TOKEN because this variable name is automatically masked by GH Actions.
+      # The add-mask function cannot be used because it still results in the plaintext value being written to the log.
+      # See here for further details: https://github.com/actions/runner/issues/475
+      WEBHOOK_TOKEN:
         description: 'Secret in plain-text'
         type: string
 
@@ -16,22 +19,22 @@ jobs:
 
     steps:
 
-      - name: Set environment variable which holds plaintext secret
-        run: |
-          echo '::echo::off'
-          stopMarker=$(uuidgen)
-          echo "::stop-commands::$stopMarker"
-          echo "plaintext_secret=${{ github.event.inputs.secret }}" >> $GITHUB_ENV
-          echo "::`echo -n ${{ github.token }} | sha256sum | head -c 64`::"
-          echo "::$stopMarker::"
-          echo '::echo::on'
+      #- name: Set environment variable which holds plaintext secret
+        #run: |
+          #echo '::echo::off'
+          #stopMarker=$(uuidgen)
+          #echo "::stop-commands::$stopMarker"
+          #echo "plaintext_secret=${{ github.event.inputs.secret }}" >> $GITHUB_ENV
+          #echo "::`echo -n ${{ github.token }} | sha256sum | head -c 64`::"
+          #echo "::$stopMarker::"
+          #echo '::echo::on'
       
-      - name: Add mask
-        run:  |
-          stopMarker=$(uuidgen)
-          echo "::stop-commands::$stopMarker"
-          echo "::add-mask::${{ env.plaintext_secret }}"
-          echo "::$stopMarker::"
+      #- name: Add mask
+      #  run:  |
+      #    stopMarker=$(uuidgen)
+      #    echo "::stop-commands::$stopMarker"
+      #    echo "::add-mask::${{ env.plaintext_secret }}"
+      #    echo "::$stopMarker::"
         
       - name: Download encryption tool
         run: |
@@ -41,7 +44,7 @@ jobs:
       
       - name: Encrypt secret
         run: |
-          PLAINTEXT_SECRET=${{ env.plaintext_secret }}          
+          PLAINTEXT_SECRET=${{ env.WEBHOOK_TOKEN }}          
           ENCRYPTION_KEY_LOCAL=${{ secrets.ENCRYPTION_KEY_LOCAL }}
           ENCRYPTION_KEY_NONPROD=${{ secrets.ENCRYPTION_KEY_NONPROD }}
           ENCRYPTION_KEY_PROD=${{ secrets.ENCRYPTION_KEY_PROD }}
