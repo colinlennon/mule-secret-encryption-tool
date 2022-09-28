@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAR_URL: 'https://docs.mulesoft.com/mule-runtime/4.4/_attachments/secure-properties-tool.jar'
+      WEBHOOK_TOKEN: ${{ github.event.inputs.WEBHOOK_TOKEN }}
 
     steps:
 
@@ -42,8 +43,6 @@ jobs:
           chmod +x secure-properties-tool.jar
       
       - name: Encrypt secret
-        env:
-          WEBHOOK_TOKEN: ${{ github.event.inputs.WEBHOOK_TOKEN }}
         run: |        
           ENCRYPTION_KEY_LOCAL=${{ secrets.ENCRYPTION_KEY_LOCAL }}
           ENCRYPTION_KEY_NONPROD=${{ secrets.ENCRYPTION_KEY_NONPROD }}
