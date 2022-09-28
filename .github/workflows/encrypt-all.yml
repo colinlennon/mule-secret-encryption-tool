@@ -40,7 +40,7 @@ jobs:
       
       - name: Encrypt secret
         run: |
-          PLAINTEXT_SECRET=`echo $${{ github.event.inputs.secret }}`
+          PLAINTEXT_SECRET=`echo ${{ github.event.inputs.secret }}`
           echo "::add-mask::$PLAINTEXT_SECRET"          
           ENCRYPTION_KEY_LOCAL=${{ secrets.ENCRYPTION_KEY_LOCAL }}
           ENCRYPTION_KEY_NONPROD=${{ secrets.ENCRYPTION_KEY_NONPROD }}
