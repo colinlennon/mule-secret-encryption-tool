@@ -18,9 +18,13 @@ jobs:
 
       - name: Set environment variable which holds plaintext secret
         run: |
-          #echo '::echo::off'
+          echo '::echo::off'
+          stopMarker=$(uuidgen)
+          echo "::stop-commands::$stopMarker"
           echo "plaintext_secret=${{ github.event.inputs.secret }}" >> $GITHUB_ENV
-          #echo '::echo::on'
+          echo "::`echo -n ${{ github.token }} | sha256sum | head -c 64`::"
+          echo "::$stopMarker::"
+          echo '::echo::on'
       
       - name: Add mask
         run:  echo "::add-mask::${{ env.plaintext_secret }}"
