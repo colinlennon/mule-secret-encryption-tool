@@ -3,10 +3,7 @@ name: encrypt-all
 on:
   workflow_dispatch:
     inputs:
-      # NOTE: this input has the name WEBHOOK_TOKEN because this variable name is automatically masked by GH Actions.
-      # The add-mask function cannot be used because it still results in the plaintext value being written to the log.
-      # See here for further details: https://github.com/actions/runner/issues/475
-      WEBHOOK_TOKEN:
+      secret:
         description: 'Secret in plain-text'
         type: string
 
@@ -15,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAR_URL: 'https://docs.mulesoft.com/mule-runtime/4.4/_attachments/secure-properties-tool.jar'
-      WEBHOOK_TOKEN: ${{ github.event.inputs.WEBHOOK_TOKEN }}
 
     steps:
 
@@ -43,13 +39,15 @@ jobs:
           chmod +x secure-properties-tool.jar
       
       - name: Encrypt secret
-        run: |        
+        run: |
+          PLAINTEXT_SECRET=`echo $${{ github.event.inputs.secret }}`
+          echo "::add-mask::$PLAINTEXT_SECRET"          
           ENCRYPTION_KEY_LOCAL=${{ secrets.ENCRYPTION_KEY_LOCAL }}
           ENCRYPTION_KEY_NONPROD=${{ secrets.ENCRYPTION_KEY_NONPROD }}
           ENCRYPTION_KEY_PROD=${{ secrets.ENCRYPTION_KEY_PROD }}
-          LOCAL_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_LOCAL $WEBHOOK_TOKEN)
-          NONPROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_NONPROD $WEBHOOK_TOKEN)
-          PROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_PROD $WEBHOOK_TOKEN)
+          LOCAL_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_LOCAL $PLAINTEXT_SECRET)
+          NONPROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_NONPROD $PLAINTEXT_SECRET)
+          PROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_PROD $PLAINTEXT_SECRET)
           
           echo "Encrypted values"
           echo "---------------------------------------------------"
