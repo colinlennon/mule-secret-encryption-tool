@@ -18,9 +18,11 @@ jobs:
 
       - name: Add mask
         run: |
+          echo '::echo::off'
           SECRET=$((${{ github.event.inputs.secret }}))
           echo "SECRET=$SECRET"
           echo "::add-mask::$SECRET"
+          echo '::echo::on'
         
       - name: Download encryption tool
         run: |
