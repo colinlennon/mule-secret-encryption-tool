@@ -43,14 +43,14 @@ jobs:
       
       - name: Encrypt secret
         env:
-          PLAINTEXT_SECRET: ${{ github.event.inputs.WEBHOOK_TOKEN }}
+          WEBHOOK_TOKEN: ${{ github.event.inputs.WEBHOOK_TOKEN }}
         run: |        
           ENCRYPTION_KEY_LOCAL=${{ secrets.ENCRYPTION_KEY_LOCAL }}
           ENCRYPTION_KEY_NONPROD=${{ secrets.ENCRYPTION_KEY_NONPROD }}
           ENCRYPTION_KEY_PROD=${{ secrets.ENCRYPTION_KEY_PROD }}
-          LOCAL_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_LOCAL $PLAINTEXT_SECRET)
-          NONPROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_NONPROD $PLAINTEXT_SECRET)
-          PROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_PROD $PLAINTEXT_SECRET)
+          LOCAL_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_LOCAL $WEBHOOK_TOKEN)
+          NONPROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_NONPROD $WEBHOOK_TOKEN)
+          PROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_PROD $WEBHOOK_TOKEN)
           
           echo "Encrypted values"
           echo "---------------------------------------------------"
