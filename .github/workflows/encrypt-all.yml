@@ -27,7 +27,11 @@ jobs:
           echo '::echo::on'
       
       - name: Add mask
-        run:  echo "::add-mask::${{ env.plaintext_secret }}"
+        run:  |
+          stopMarker=$(uuidgen)
+          echo "::stop-commands::$stopMarker"
+          echo "::add-mask::${{ env.plaintext_secret }}"
+          echo "::$stopMarker::"
         
       - name: Download encryption tool
         run: |
