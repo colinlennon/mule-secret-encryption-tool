@@ -16,13 +16,14 @@ jobs:
 
     steps:
 
-      - name: Add mask
+      - name: Set environment variable which holds plaintext secret
         run: |
-          echo '::echo::off'
-          SECRET=${{ github.event.inputs.secret }} > /dev/null 2>&1
-          echo "::add-mask::$SECRET"          
-          echo "SECRET=$SECRET"
-          echo '::echo::on'
+          #echo '::echo::off'
+          echo "plaintext_secret=${{ github.event.inputs.secret }}" >> $GITHUB_ENV
+          #echo '::echo::on'
+      
+      - name: Add mask
+        run:  echo "::add-mask::${{ env.plaintext_secret }}"
         
       - name: Download encryption tool
         run: |
@@ -32,7 +33,7 @@ jobs:
       
       - name: Encrypt secret
         run: |
-          PLAINTEXT_SECRET=${{ github.event.inputs.secret }}          
+          PLAINTEXT_SECRET=${{ env.plaintext_secret }}          
           ENCRYPTION_KEY_LOCAL=${{ secrets.ENCRYPTION_KEY_LOCAL }}
           ENCRYPTION_KEY_NONPROD=${{ secrets.ENCRYPTION_KEY_NONPROD }}
           ENCRYPTION_KEY_PROD=${{ secrets.ENCRYPTION_KEY_PROD }}
