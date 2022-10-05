@@ -14,6 +14,11 @@ jobs:
       JAR_URL: 'https://docs.mulesoft.com/mule-runtime/4.4/_attachments/secure-properties-tool.jar'
 
     steps:
+    
+      - name: Masking test
+        run: |
+          SECRET_VALUE=$(cat $GITHUB_EVENT_PATH | jq -r '.inputs.secret' )
+          echo "::add-mask::$SECRET_VALUE"
 
       #- name: Set environment variable which holds plaintext secret
         #run: |
