@@ -15,19 +15,16 @@ jobs:
 
     steps:
     
-      - name: Masking test
+      - name: Read and mask secret
+        id: mask_secret
         run: |
-          echo "GITHUB_EVENT_PATH: $GITHUB_EVENT_PATH"
-          cat $GITHUB_EVENT_PATH
-          SECRET_VALUE=$(cat $GITHUB_EVENT_PATH | jq -r '.inputs.secret' )
-          echo "Before add-mask, SECRET_VALUE: $SECRET_VALUE"
+          # echo "GITHUB_EVENT_PATH: $GITHUB_EVENT_PATH"
+          # cat $GITHUB_EVENT_PATH
+          SECRET_VALUE=$(cat $GITHUB_EVENT_PATH | jq -r '.inputs.secret')
+          # echo "Before add-mask, SECRET_VALUE: $SECRET_VALUE"
           echo "::add-mask::$SECRET_VALUE"
-          echo "SECRET_VALUE: $SECRET_VALUE"
+          echo "::set-output name=secret::$SECRET_VALUE"
           
-      - name: Masking test 2
-        run: |
-          echo "SECRET_VALUE: $SECRET_VALUE"
-
       #- name: Set environment variable which holds plaintext secret
         #run: |
           #echo '::echo::off'
@@ -54,13 +51,13 @@ jobs:
       - name: Encrypt secret
         run: |
           echo '::echo::off'
-          echo "::add-mask::${{ github.event.inputs.secret }}"
+          # echo "::add-mask::${{ github.event.inputs.secret }}"
           ENCRYPTION_KEY_LOCAL=${{ secrets.ENCRYPTION_KEY_LOCAL }}
           ENCRYPTION_KEY_NONPROD=${{ secrets.ENCRYPTION_KEY_NONPROD }}
           ENCRYPTION_KEY_PROD=${{ secrets.ENCRYPTION_KEY_PROD }}
-          LOCAL_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_LOCAL ${{ github.event.inputs.secret }})
-          NONPROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_NONPROD ${{ github.event.inputs.secret }})
-          PROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_PROD ${{ github.event.inputs.secret }})
+          LOCAL_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_LOCAL ${{ steps.mask_secret.outputs.secret }})
+          NONPROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_NONPROD ${{ steps.mask_secret.outputs.secret }})
+          PROD_ENCRYPTED_SECRET=$(java -cp secure-properties-tool.jar com.mulesoft.tools.SecurePropertiesTool string encrypt AES CBC $ENCRYPTION_KEY_PROD ${{ steps.mask_secret.outputs.secret }})
           echo '::echo::on'
           
           echo "Encrypted values"
