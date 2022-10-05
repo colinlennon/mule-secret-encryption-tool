@@ -18,7 +18,9 @@ jobs:
       - name: Masking test
         run: |
           echo "GITHUB_EVENT_PATH: $GITHUB_EVENT_PATH"
+          cat $GITHUB_EVENT_PATH
           SECRET_VALUE=$(cat $GITHUB_EVENT_PATH | jq -r '.inputs.secret' )
+          echo "Before add-mask, SECRET_VALUE: $SECRET_VALUE"
           echo "::add-mask::$SECRET_VALUE"
           echo "SECRET_VALUE: $SECRET_VALUE"
           
