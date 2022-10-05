@@ -17,8 +17,14 @@ jobs:
     
       - name: Masking test
         run: |
+          echo "GITHUB_EVENT_PATH: $GITHUB_EVENT_PATH"
           SECRET_VALUE=$(cat $GITHUB_EVENT_PATH | jq -r '.inputs.secret' )
           echo "::add-mask::$SECRET_VALUE"
+          echo "SECRET_VALUE: $SECRET_VALUE"
+          
+      - name: Masking test 2
+        run: |
+          echo "SECRET_VALUE: $SECRET_VALUE"
 
       #- name: Set environment variable which holds plaintext secret
         #run: |
