@@ -29,4 +29,4 @@ jobs:
       - name: Call GitHub API to replace all topics
         run: |
           TOPICS="{"names":["action","github"]}"
-          curl --location --request PUT 'https://api.github.com/repos/colinlennon/mule-secret-encryption-tool/topics' --header 'Content-Type: application/json' --data-raw '$TOPICS' --header "Authorization: Bearer ${{ secrets.TEST_GH_TOKEN }}"
+          RESULT=$(curl --location --request PUT 'https://api.github.com/repos/colinlennon/mule-secret-encryption-tool/topics' --header 'Content-Type: application/json' --data-raw '$TOPICS' --header "Authorization: Bearer ${{ secrets.TEST_GH_TOKEN }}")
