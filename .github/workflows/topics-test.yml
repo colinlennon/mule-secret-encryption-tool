@@ -29,4 +29,4 @@ jobs:
       - name: Call GitHub API to replace all topics
         run: |
           echo Add other actions to build,
-          curl --location --request PUT 'https://api.github.com/repos/colinlennon/mule-secret-encryption-tool/topics' --header 'Content-Type: application/json' --data-raw '{"names":["action","github"]}' --header "Authorization: Bearer $GH_TOKEN"
+          curl --location --request PUT 'https://api.github.com/repos/colinlennon/mule-secret-encryption-tool/topics' --header 'Content-Type: application/json' --data-raw '{"names":["action","github"]}' --header "Authorization: Bearer $GITHUB_TOKEN"
